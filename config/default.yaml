@@ -7,3 +7,6 @@ twitter:
 ui:
   # time between updates, in secs
   updateInterval: 1
+
+  # how many tags to display
+  numTags: 5

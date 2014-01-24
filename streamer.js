@@ -1,17 +1,18 @@
 'use strict';
 
-var stats = {
-  startTime: Date.now(),  // when tracking began
-  num: 0,                 // number of tweets
-  numWithUrl: 0,          // ... with URL
-  numWithPic: 0,          // ... with picture
-  tags: {},               // hash of hashtags
-  domains: {}             // hash of domains
-};
-
 var config = require('config');
-var sprintf = require('sprintf-js').sprintf;
 var _ = require('lodash');
+var sprintf = require('sprintf-js').sprintf;
+var IncrementedSet = require('./lib/incremented-set');
+
+var stats = {
+  startTime: Date.now(),        // when tracking began
+  num: 0,                       // number of tweets
+  numWithUrl: 0,                // ... with URL
+  numWithPic: 0,                // ... with picture
+  tags: new IncrementedSet(),   // hash of hashtags
+  domains: {}                   // hash of domains
+};
 
 var Twit = require('twit');
 var twitter = new Twit({
@@ -41,6 +42,10 @@ function updateStats(tweet) {
 
   if (hasUrl(tweet)) { stats.numWithUrl++; }
   if (hasPic(tweet)) { stats.numWithPic++; }
+
+  _.each(tweet.entities.hashtags, function(hashtag) {
+    stats.tags.increment(hashtag.text);
+  });
 }
 
 function showStats() {
@@ -55,7 +60,13 @@ function showStats() {
   program.write(sprintf('with pic: %.2f%%', stats.numWithPic / stats.num * 100));
   program.newline();
 
-  program.up(3);
+  program.write('Top Tags: ');
+  _.each(stats.tags.first(config.ui.numTags), function(tag) {
+    program.write(sprintf('#%s ', tag));
+  });
+  program.newline();
+
+  program.up(4);
 }
 
 function hasUrl(tweet) {
