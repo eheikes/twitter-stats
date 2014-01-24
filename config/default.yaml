@@ -9,7 +9,7 @@ ui:
   updateInterval: 1
 
   # how many tags to display
-  numTags: 5
+  numTags: 10
 
   # how many domains to display
-  numDomains: 5
+  numDomains: 10
