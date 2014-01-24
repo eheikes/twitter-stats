@@ -3,6 +3,7 @@
 var config = require('config');
 var _ = require('lodash');
 var sprintf = require('sprintf-js').sprintf;
+var moment = require('moment');
 var IncrementedSet = require('./lib/incremented-set');
 
 var stats = {
@@ -54,6 +55,10 @@ function updateStats(tweet) {
 }
 
 function showStats() {
+  var uptime = moment(stats.startTime).fromNow();
+  program.write(sprintf(' === Twitter Stats (since %s) ===', uptime));
+  program.newline();
+
   var per = getThroughput();
   program.write(sprintf('%u tweets', stats.num));
   program.write(sprintf(' (%.2f/sec, %.2f/min, %.2f/hour)', per.sec, per.min, per.hr));
@@ -77,7 +82,7 @@ function showStats() {
   });
   program.newline();
 
-  program.up(5);
+  program.up(6);
 }
 
 function hasUrl(tweet) {
