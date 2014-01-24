@@ -1,8 +1,6 @@
 # Twitter Stats
 
-A `top`-style (CLI), real-time view of Twitter stats.
-
-Stats are collected by sampling Twitter's [public stream](https://dev.twitter.com/docs/streaming-apis/streams/public).
+A `top`-style (CLI), real-time view of Twitter stats. Stats are collected by sampling Twitter's [public stream](https://dev.twitter.com/docs/streaming-apis/streams/public).
 
 ## Installation
 
@@ -31,5 +29,5 @@ Tested on Linux/Debian.
 
 * The [curses routines](lib/formatter.js) can probably be improved, if you can figure out the [horribly-documented blessed library](https://github.com/chjj/blessed).
 * The [IncrementedSet](lib/incremented-set.js) is a naive implementation I wrote of a priority queue-like data structure, since I couldn't find any good library that fit what I was looking for.
-* There is no l10n/i18n done beyond what comes with Node and include modules. It works pretty well, but does cause rendering issues occasionally.
+* There is no l10n/i18n done beyond what comes with Node and the included modules. It works pretty well, but does cause rendering issues occasionally.
 * Stats collection is not bounded, so theoretically the counters will overflow after ~1.8e308 tweets, or memory will be consumed to store all the hashtags and domains.
