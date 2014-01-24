@@ -8,7 +8,9 @@
   "dependencies": {
     "config": "~0.4.34",
     "yaml": "~0.2.3",
-    "twit": "~1.1.12"
+    "twit": "~1.1.12",
+    "blessed": "0.0.29",
+    "sprintf-js": "0.0.7"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

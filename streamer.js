@@ -15,6 +15,7 @@ var stats = {
 };
 
 var config = require('config');
+var sprintf = require('sprintf-js').sprintf;
 
 var Twit = require('twit');
 var twitter = new Twit({
@@ -24,7 +25,11 @@ var twitter = new Twit({
   access_token_secret:  config.twitter.accessTokenSecret
 });
 
-console.log('Initialized...');
+var blessed = require('blessed');
+var program = blessed.program();
+
+showStats();
+setInterval(showStats, config.ui.updateInterval * 1000);
 
 var stream = twitter.stream('statuses/sample');
 stream.on('tweet', function(tweet) {
@@ -32,7 +37,6 @@ stream.on('tweet', function(tweet) {
 });
 
 process.on('SIGINT', function() {
-  console.log(stats);
   process.exit(0);
 });
 
@@ -41,4 +45,29 @@ function updateStats(tweet) {
 
   var urlRegExp = /\bhttp(s?):\/\//;
   if (tweet.text.match(urlRegExp)) { stats.numWithUrl++; }
+}
+
+function showStats() {
+  var per = getThroughput();
+  program.write(sprintf('%u tweets', stats.num));
+  program.write(sprintf(' (%.2f/sec, %.2f/min, %.2f/hour)', per.sec, per.min, per.hr));
+  program.newline();
+
+  program.write(sprintf('with URL: %.2f%%', stats.numWithUrl / stats.num * 100));
+  program.newline();
+
+  program.up(2);
+}
+
+function getThroughput() {
+  var tp = {
+    sec: 0,
+    min: 0,
+    hr:  0
+  };
+  var intervalSecs = (Date.now() - stats.startTime) / 1000;
+  tp.sec = stats.num / intervalSecs;
+  tp.min = tp.sec * 60;
+  tp.hr  = tp.min * 60;
+  return tp;
 }

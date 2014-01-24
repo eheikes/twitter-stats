@@ -1,0 +1,9 @@
+twitter:
+  consumerKey: "REPLACE WITH YOUR KEY"
+  consumerSecret: "REPLACE WITH YOUR SECRET"
+  accessToken: "REPLACE WITH YOUR TOKEN"
+  accessTokenSecret: "REPLACE WITH YOUR SECRET"
+
+ui:
+  # time between updates, in secs
+  updateInterval: 1
