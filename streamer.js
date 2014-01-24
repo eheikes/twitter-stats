@@ -1,10 +1,5 @@
 'use strict';
 
-var picDomains = [
-  'pic.twitter.com',
-  'instagram.com'
-];
-
 var stats = {
   startTime: Date.now(),  // when tracking began
   num: 0,                 // number of tweets
@@ -16,6 +11,7 @@ var stats = {
 
 var config = require('config');
 var sprintf = require('sprintf-js').sprintf;
+var _ = require('lodash');
 
 var Twit = require('twit');
 var twitter = new Twit({
@@ -45,6 +41,8 @@ function updateStats(tweet) {
 
   var urlRegExp = /\bhttp(s?):\/\//;
   if (tweet.text.match(urlRegExp)) { stats.numWithUrl++; }
+
+  if (hasPic(tweet)) { stats.numWithPic++; }
 }
 
 function showStats() {
@@ -56,7 +54,41 @@ function showStats() {
   program.write(sprintf('with URL: %.2f%%', stats.numWithUrl / stats.num * 100));
   program.newline();
 
-  program.up(2);
+  program.write(sprintf('with pic: %.2f%%', stats.numWithPic / stats.num * 100));
+  program.newline();
+
+  program.up(3);
+}
+
+function hasPic(tweet) {
+  if (_.detect(tweet.entities.media, isPhotoMedia)) {
+    return true;
+  }
+
+  if (_.detect(tweet.entities.urls, isPhotoUrl)) {
+    return true;
+  }
+
+  return false;
+}
+
+function isPhotoMedia(mediaItem) {
+  if (mediaItem.type === 'photo') {
+    return true;
+  }
+  return false;
+}
+
+function isPhotoUrl(urlItem) {
+  var domains = [
+    'instagram.com'
+  ];
+
+  var urlDomain = urlItem.display_url.replace(/\/.*$/, '');
+  if (_.contains(domains, urlDomain)) {
+    return true;
+  }
+  return false;
 }
 
 function getThroughput() {
