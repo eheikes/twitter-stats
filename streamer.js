@@ -38,4 +38,7 @@ process.on('SIGINT', function() {
 
 function updateStats(tweet) {
   stats.num++;
+
+  var urlRegExp = /\bhttp(s?):\/\//;
+  if (tweet.text.match(urlRegExp)) { stats.numWithUrl++; }
 }
