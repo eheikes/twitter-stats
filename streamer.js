@@ -39,9 +39,7 @@ process.on('SIGINT', function() {
 function updateStats(tweet) {
   stats.num++;
 
-  var urlRegExp = /\bhttp(s?):\/\//;
-  if (tweet.text.match(urlRegExp)) { stats.numWithUrl++; }
-
+  if (hasUrl(tweet)) { stats.numWithUrl++; }
   if (hasPic(tweet)) { stats.numWithPic++; }
 }
 
@@ -58,6 +56,10 @@ function showStats() {
   program.newline();
 
   program.up(3);
+}
+
+function hasUrl(tweet) {
+  return (tweet.entities.urls.length > 0);
 }
 
 function hasPic(tweet) {
