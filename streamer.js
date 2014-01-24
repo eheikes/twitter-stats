@@ -5,6 +5,7 @@ var _ = require('lodash');
 var numeral = require('numeral');
 var moment = require('moment');
 var IncrementedSet = require('./lib/incremented-set');
+var formatter = require('./lib/formatter');
 
 var stats = {
   startTime: Date.now(),        // when tracking began
@@ -22,9 +23,6 @@ var twitter = new Twit({
   access_token:         config.twitter.accessToken,
   access_token_secret:  config.twitter.accessTokenSecret
 });
-
-var blessed = require('blessed');
-var program = blessed.program();
 
 showStats();
 setInterval(showStats, config.ui.updateInterval * 1000);
@@ -55,43 +53,40 @@ function updateStats(tweet) {
 }
 
 function showStats() {
+  var parts = [];
+  formatter.clear();
+
   var uptime = moment(stats.startTime).fromNow();
-  program.write(' === Twitter Stats (since ' + uptime + ') ===');
-  program.newline();
+  formatter.writeLn(' === Twitter Stats (since ' + uptime + ') ===');
 
   var tweetFormat = stats.num < 1000 ? '0' : '0,0.00a';
   var per = getThroughput();
-  program.write(numeral(stats.num).format(tweetFormat) + ' tweets ');
-  program.write('(');
-  program.write(numeral(per.sec).format('0,0.00') + '/sec, ');
-  program.write(numeral(per.min).format('0,0') + '/min, ');
-  program.write(numeral(per.hr).format('0,0') + '/hour');
-  program.write(')');
-  program.newline();
+  parts = [
+    numeral(stats.num).format(tweetFormat) + ' tweets',
+    '(' + numeral(per.sec).format('0,0.00') + '/sec,',
+    numeral(per.min).format('0,0') + '/min,',
+    numeral(per.hr).format('0,0') + '/hour)'
+  ];
+  formatter.writeLn.apply(formatter, parts);
 
   var pct = stats.num ? stats.numWithUrl / stats.num : 0;
-  program.write('with URL: ');
-  program.write(numeral(pct).format('0,0.00%'));
-  program.newline();
+  formatter.writeLn('with URL:', numeral(pct).format('0,0.00%'));
 
   pct = stats.num ? stats.numWithPic / stats.num : 0;
-  program.write('with pic: ');
-  program.write(numeral(pct).format('0,0.00%'));
-  program.newline();
+  formatter.writeLn('with pic:', numeral(pct).format('0,0.00%'));
 
-  program.write('Top Tags: ');
-  _.each(stats.tags.first(config.ui.numTags), function(tag) {
-    program.write('#' + tag + ' ');
-  });
-  program.newline();
+  parts = ['Top Tags:'];
+  parts.push.apply(
+    parts,
+    stats.tags.first(config.ui.numTags).map(function(tag) { return '#' + tag; })
+  );
+  formatter.writeLn.apply(formatter, parts);
 
-  program.write('Top Domains: ');
-  _.each(stats.domains.first(config.ui.numDomains), function(domain) {
-    program.write(domain + ' ');
-  });
-  program.newline();
+  parts = ['Top Domains:'];
+  parts.push.apply(parts, stats.domains.first(config.ui.numDomains));
+  formatter.writeLn.apply(formatter, parts);
 
-  program.up(6);
+  formatter.rewind();
 }
 
 function hasUrl(tweet) {
