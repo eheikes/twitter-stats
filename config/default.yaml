@@ -10,3 +10,6 @@ ui:
 
   # how many tags to display
   numTags: 5
+
+  # how many domains to display
+  numDomains: 5

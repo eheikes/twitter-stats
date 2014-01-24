@@ -10,8 +10,8 @@ var stats = {
   num: 0,                       // number of tweets
   numWithUrl: 0,                // ... with URL
   numWithPic: 0,                // ... with picture
-  tags: new IncrementedSet(),   // hash of hashtags
-  domains: {}                   // hash of domains
+  tags: new IncrementedSet(),   // hashtags, sorted by popularity
+  domains: new IncrementedSet() // domains from URLs, sorted by popularity
 };
 
 var Twit = require('twit');
@@ -46,6 +46,11 @@ function updateStats(tweet) {
   _.each(tweet.entities.hashtags, function(hashtag) {
     stats.tags.increment(hashtag.text);
   });
+
+  _.each(tweet.entities.urls, function(url) {
+    var urlDomain = url.display_url.replace(/\/.*$/, '').toLowerCase();
+    stats.domains.increment(urlDomain);
+  });
 }
 
 function showStats() {
@@ -66,7 +71,13 @@ function showStats() {
   });
   program.newline();
 
-  program.up(4);
+  program.write('Top Domains: ');
+  _.each(stats.domains.first(config.ui.numDomains), function(domain) {
+    program.write(sprintf('%s ', domain));
+  });
+  program.newline();
+
+  program.up(5);
 }
 
 function hasUrl(tweet) {
