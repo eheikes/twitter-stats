@@ -54,7 +54,7 @@ function updateStats(tweet) {
 
 function showStats() {
   var parts = [];
-  formatter.clear();
+  formatter.start();
 
   var uptime = moment(stats.startTime).fromNow();
   formatter.writeLn(' === Twitter Stats (since ' + uptime + ') ===');
