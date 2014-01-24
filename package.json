@@ -10,9 +10,9 @@
     "yaml": "~0.2.3",
     "twit": "~1.1.12",
     "blessed": "0.0.29",
-    "sprintf-js": "0.0.7",
     "lodash": "~2.4.1",
-    "moment": "~2.5.1"
+    "moment": "~2.5.1",
+    "numeral": "~1.5.3"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

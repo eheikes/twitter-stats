@@ -2,7 +2,7 @@
 
 var config = require('config');
 var _ = require('lodash');
-var sprintf = require('sprintf-js').sprintf;
+var numeral = require('numeral');
 var moment = require('moment');
 var IncrementedSet = require('./lib/incremented-set');
 
@@ -56,29 +56,38 @@ function updateStats(tweet) {
 
 function showStats() {
   var uptime = moment(stats.startTime).fromNow();
-  program.write(sprintf(' === Twitter Stats (since %s) ===', uptime));
+  program.write(' === Twitter Stats (since ' + uptime + ') ===');
   program.newline();
 
+  var tweetFormat = stats.num < 1000 ? '0' : '0,0.00a';
   var per = getThroughput();
-  program.write(sprintf('%u tweets', stats.num));
-  program.write(sprintf(' (%.2f/sec, %.2f/min, %.2f/hour)', per.sec, per.min, per.hr));
+  program.write(numeral(stats.num).format(tweetFormat) + ' tweets ');
+  program.write('(');
+  program.write(numeral(per.sec).format('0,0.00') + '/sec, ');
+  program.write(numeral(per.min).format('0,0') + '/min, ');
+  program.write(numeral(per.hr).format('0,0') + '/hour');
+  program.write(')');
   program.newline();
 
-  program.write(sprintf('with URL: %.2f%%', stats.numWithUrl / stats.num * 100));
+  var pct = stats.num ? stats.numWithUrl / stats.num : 0;
+  program.write('with URL: ');
+  program.write(numeral(pct).format('0,0.00%'));
   program.newline();
 
-  program.write(sprintf('with pic: %.2f%%', stats.numWithPic / stats.num * 100));
+  pct = stats.num ? stats.numWithPic / stats.num : 0;
+  program.write('with pic: ');
+  program.write(numeral(pct).format('0,0.00%'));
   program.newline();
 
   program.write('Top Tags: ');
   _.each(stats.tags.first(config.ui.numTags), function(tag) {
-    program.write(sprintf('#%s ', tag));
+    program.write('#' + tag + ' ');
   });
   program.newline();
 
   program.write('Top Domains: ');
   _.each(stats.domains.first(config.ui.numDomains), function(domain) {
-    program.write(sprintf('%s ', domain));
+    program.write(domain + ' ');
   });
   program.newline();
 
