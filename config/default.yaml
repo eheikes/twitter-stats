@@ -8,8 +8,11 @@ ui:
   # time between updates, in secs
   updateInterval: 1
 
-  # how many tags to display
+  # how many of these items to display
   numTags: 10
-
-  # how many domains to display
   numDomains: 10
+  numLangs: 20
+  numCountries: 20
+  numSources: 5
+  numUsers: 10
+  numUrls: 5

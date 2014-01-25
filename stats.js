@@ -2,18 +2,29 @@
 
 var config = require('config');
 var _ = require('lodash');
+_.str = require('underscore.string');
+_.mixin(_.str.exports());
 var numeral = require('numeral');
 var moment = require('moment');
 var IncrementedSet = require('./lib/incremented-set');
 var formatter = require('./lib/formatter');
 
 var stats = {
-  startTime: Date.now(),        // when tracking began
-  num: 0,                       // number of tweets
-  numWithUrl: 0,                // ... with URL
-  numWithPic: 0,                // ... with picture
-  tags: new IncrementedSet(),   // hashtags, sorted by popularity
-  domains: new IncrementedSet() // domains from URLs, sorted by popularity
+  startTime: Date.now(),          // when tracking began
+  num: 0,                         // number of tweets
+  numWithUrl: 0,                  // ... with URL
+  numWithPic: 0,                  // ... with picture
+  numWithPlace: 0,                // ... with associated location
+  numIsReply: 0,                  // ... is a reply
+  numIsRetweet: 0,                // ... is a retweet
+  tags: new IncrementedSet(),     // hashtags, sorted by popularity
+  domains: new IncrementedSet(),  // domains from URLs, sorted by popularity
+  langs: new IncrementedSet(),    // languages, sorted by popularity
+  countries: new IncrementedSet(),// assoc. countries, sorted by popularity
+  sources: new IncrementedSet(),  // sources, sorted by popularity
+  users: new IncrementedSet(),    // tweeting users, sorted by popularity
+  mentions: new IncrementedSet(), // mentioned users, sorted by popularity
+  urls: new IncrementedSet(),     // linked URLs, sorted by popularity
 };
 
 var Twit = require('twit');
@@ -39,8 +50,23 @@ process.on('SIGINT', function() {
 function updateStats(tweet) {
   stats.num++;
 
-  if (hasUrl(tweet)) { stats.numWithUrl++; }
-  if (hasPic(tweet)) { stats.numWithPic++; }
+  if (hasUrl(tweet))    { stats.numWithUrl++; }
+  if (hasPic(tweet))    { stats.numWithPic++; }
+  if (isReply(tweet))   { stats.numIsReply++; }
+  if (isRetweet(tweet)) { stats.numIsRetweet++; }
+  if (hasLang(tweet))   { stats.langs.increment(tweet.lang); }
+  if (hasPlace(tweet))  {
+    stats.numWithPlace++;
+    stats.countries.increment(tweet.place.country_code);
+  }
+
+  stats.users.increment(tweet.user.screen_name);
+
+  var source = _.stripTags(tweet.source);
+  if (source.indexOf(' ') > 0) {
+    source = '"' + source + '"';
+  }
+  stats.sources.increment(source);
 
   _.each(tweet.entities.hashtags, function(hashtag) {
     stats.tags.increment(hashtag.text);
@@ -49,6 +75,11 @@ function updateStats(tweet) {
   _.each(tweet.entities.urls, function(url) {
     var urlDomain = url.display_url.replace(/\/.*$/, '').toLowerCase();
     stats.domains.increment(urlDomain);
+    stats.urls.increment(url.expanded_url);
+  });
+
+  _.each(tweet.entities.user_mentions, function(user) {
+    stats.mentions.increment(user.screen_name);
   });
 }
 
@@ -69,11 +100,26 @@ function showStats() {
   ];
   formatter.writeLn.apply(formatter, parts);
 
-  var pct = stats.num ? stats.numWithUrl / stats.num : 0;
-  formatter.writeLn('with URL:', numeral(pct).format('0,0.00%'));
+  var urlPct = stats.num ? stats.numWithUrl / stats.num : 0;
+  var placePct = stats.num ? stats.numWithPlace / stats.num : 0;
+  var replyPct = stats.num ? stats.numIsReply / stats.num : 0;
+  formatter.writeLn(
+    'with URL:', numeral(urlPct).format('0.00%'),
+    '    ',
+    'with place:', numeral(placePct).format('0.00%'),
+    '    ',
+    'is a reply:', numeral(replyPct).format('0.00%')
+  );
 
-  pct = stats.num ? stats.numWithPic / stats.num : 0;
-  formatter.writeLn('with pic:', numeral(pct).format('0,0.00%'));
+  var picPct = stats.num ? stats.numWithPic / stats.num : 0;
+  var retweetPct = stats.num ? stats.numIsRetweet / stats.num : 0;
+  formatter.writeLn(
+    'with pic:', numeral(picPct).format('0.00%'),
+    '    ',
+    '           ', '      ', // placeholder for future stat
+    '    ',
+    'is a RT:   ', numeral(retweetPct).format('0.00%')
+  );
 
   parts = ['Top Tags:'];
   parts.push.apply(
@@ -85,6 +131,38 @@ function showStats() {
   parts = ['Top Domains:'];
   parts.push.apply(parts, stats.domains.first(config.ui.numDomains));
   formatter.writeLn.apply(formatter, parts);
+
+  parts = ['Top Langs:'];
+  parts.push.apply(parts, stats.langs.first(config.ui.numLangs));
+  formatter.writeLn.apply(formatter, parts);
+
+  parts = ['Top Countries:'];
+  parts.push.apply(parts, stats.countries.first(config.ui.numCountries));
+  formatter.writeLn.apply(formatter, parts);
+
+  parts = ['Top Sources:'];
+  parts.push.apply(parts, stats.sources.first(config.ui.numSources));
+  formatter.writeLn.apply(formatter, parts);
+
+  parts = ['Top Tweeters:'];
+  parts.push.apply(
+    parts,
+    stats.users.first(config.ui.numUsers).map(function(user) { return '@' + user; })
+  );
+  formatter.writeLn.apply(formatter, parts);
+
+  parts = ['Top Mentions:'];
+  parts.push.apply(
+    parts,
+    stats.mentions.first(config.ui.numUsers).map(function(user) { return '@' + user; })
+  );
+  formatter.writeLn.apply(formatter, parts);
+
+  var urls = stats.urls.first(config.ui.numUrls);
+  formatter.writeLn('Top Links:');
+  _.each(urls, function(url) {
+    formatter.writeLn('  ' + url);
+  });
 
   formatter.rewind();
 }
@@ -103,6 +181,22 @@ function hasPic(tweet) {
   }
 
   return false;
+}
+
+function hasLang(tweet) {
+  return (tweet.lang !== 'und');
+}
+
+function hasPlace(tweet) {
+  return (tweet.place != null);
+}
+
+function isReply(tweet) {
+  return (tweet.in_reply_to_status_id_str != null);
+}
+
+function isRetweet(tweet) {
+  return (tweet.retweeted_status != null);
 }
 
 function isPhotoMedia(mediaItem) {
