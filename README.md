@@ -32,6 +32,10 @@ The info that is included in the output, from top to bottom:
 * most mentioned users
 * most popular links
 
+## Testing
+
+Run `grunt test` to run the test suite.
+
 ## Known Issues
 
 Tested on Linux/Debian.
