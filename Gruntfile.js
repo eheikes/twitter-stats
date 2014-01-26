@@ -1,10 +1,19 @@
-'use strict';
-
 module.exports = function(grunt) {
+  'use strict';
   require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    jshint: {
+      options: {
+      },
+      all: [
+        '*.js',
+        'lib/*.js',
+        'test/*.js'
+      ]
+    },
 
     mochacli: {
       options: {
@@ -17,5 +26,5 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', ['mochacli']);
-  grunt.registerTask('default', ['test']);
+  grunt.registerTask('default', ['jshint', 'test']);
 };

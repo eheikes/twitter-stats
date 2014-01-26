@@ -138,7 +138,7 @@ describe('IncrementedSet', function() {
         if (a.val > b.val) { return  1; }
         if (a.val < b.val) { return -1; }
         return 0;
-      }
+      };
 
       var result, set = new IncrementedSet(minFirst);
 
