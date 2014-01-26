@@ -32,7 +32,10 @@
     "grunt-contrib-watch": "~0.5.3",
     "request": "~2.27.0",
     "time-grunt": "~0.1.1",
-    "load-grunt-tasks": "~0.2.0"
+    "load-grunt-tasks": "~0.2.0",
+    "chai": "*",
+    "mocha": "*",
+    "grunt-mocha-cli": "~1.5.0"
   },
   "engines": {
     "node": ">=0.8"
