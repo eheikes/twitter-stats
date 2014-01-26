@@ -97,10 +97,11 @@ describe('IncrementedSet', function() {
     it('should add an arbitrary amount to an existing key', function() {
       var result, set = new IncrementedSet();
 
-      set.increment('foo', 1);
-      set.increment('bar', 2);
-      set.increment('baz', 3);
-      set.increment('bar', 2);
+      set.increment('foo', 1.1);
+      set.increment('bar', 2.6);
+      set.increment('baz', 3.3);
+      set.increment('bar', 0.8);
+      set.increment('baz', -0.1);
       result = set.first(3);
 
       result.should.eql(['bar', 'baz', 'foo']);
