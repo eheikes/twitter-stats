@@ -35,6 +35,19 @@ describe('IncrementedSet', function() {
 
       result.length.should.equal(2);
     });
+
+    it('should ignore arguments less than 1', function() {
+      var result, set = new IncrementedSet();
+
+      set.increment('foo', 3);
+      set.increment('bar', 7);
+
+      result = set.first(0);
+      result.length.should.equal(1);
+
+      result = set.first(-1);
+      result.length.should.equal(1);
+    });
   });
 
   describe('findIndex()', function() {
