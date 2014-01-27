@@ -21,10 +21,18 @@ module.exports = function(grunt) {
         require: ['chai']
       },
       all: ['test/*.js']
+    },
+
+    execute: {
+      profile: {
+        src: ['profiler.js']
+      }
     }
 
   });
 
   grunt.registerTask('test', ['mochacli']);
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('profile', ['execute:profile']);
+
+  grunt.registerTask('default', ['jshint', 'test', 'profile']);
 };

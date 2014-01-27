@@ -32,7 +32,9 @@
     "chai": "*",
     "mocha": "*",
     "grunt-mocha-cli": "~1.5.0",
-    "grunt-contrib-jshint": "~0.8.0"
+    "grunt-contrib-jshint": "~0.8.0",
+    "lightprof": "~0.1.0",
+    "grunt-execute": "~0.1.5"
   },
   "engines": {
     "node": ">=0.8"
