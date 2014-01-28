@@ -7,6 +7,7 @@
   _.mixin(_.str.exports());
   var numeral = require('numeral');
   var moment = require('moment');
+  var Q = require('kew');
   var IncrementedSet = require('./lib/incremented-set');
   var formatter = require('./lib/formatter');
 
@@ -85,6 +86,7 @@
   }
 
   function showStats() {
+    cacheStats();
     var parts = [];
     formatter.start();
 
@@ -166,6 +168,17 @@
     });
 
     formatter.rewind();
+  }
+
+  function cacheStats() {
+    stats.tags.cache(config.ui.numTags);
+    stats.domains.cache(config.ui.numDomains);
+    stats.langs.cache(config.ui.numLangs);
+    stats.countries.cache(config.ui.numCountries);
+    stats.sources.cache(config.ui.numSources);
+    stats.users.cache(config.ui.numUsers);
+    stats.mentions.cache(config.ui.numUsers);
+    stats.urls.cache(config.ui.numUrls);
   }
 
   function hasUrl(tweet) {

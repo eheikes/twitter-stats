@@ -4,6 +4,17 @@ twitter:
   accessToken: "REPLACE WITH YOUR TOKEN"
   accessTokenSecret: "REPLACE WITH YOUR SECRET"
 
+redis:
+  # connection settings; use null for the default (127.0.0.1:6379)
+  host: null
+  port: null
+
+  # database to use
+  database: 0
+
+  # connection timeout in secs
+  timeout: 30
+
 ui:
   # time between updates, in secs
   updateInterval: 1

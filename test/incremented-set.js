@@ -4,97 +4,81 @@ var IncrementedSet = require('../lib/incremented-set');
 describe('IncrementedSet', function() {
 
   describe('first()', function() {
-    it('should return the largest key', function() {
-      var result, set = new IncrementedSet();
+    it('should return the largest key', function(done) {
+      var set = new IncrementedSet();
 
       set.increment('foo', 3);
       set.increment('bar', 7);
       set.increment('baz', 2);
-      result = set.first();
-
-      result.should.eql(['bar']);
+      set.cache(3).then(function() {
+        set.first().should.eql(['bar']);
+        done();
+      }).fail(done);
     });
 
-    it('should return the requested number of keys', function() {
-      var result, set = new IncrementedSet();
+    it('should return the requested number of keys', function(done) {
+      var set = new IncrementedSet();
 
       set.increment('foo', 3);
       set.increment('bar', 7);
       set.increment('baz', 2);
-      result = set.first(2);
-
-      result.length.should.equal(2);
+      set.cache(3).then(function() {
+        set.first(2).length.should.equal(2);
+        done();
+      }).fail(done);
     });
 
-    it('should return the full set if more keys than exist are requested', function() {
-      var result, set = new IncrementedSet();
+    it('should return the full set if more keys than exist are requested', function(done) {
+      var set = new IncrementedSet();
 
       set.increment('foo', 3);
       set.increment('bar', 7);
-      result = set.first(5);
-
-      result.length.should.equal(2);
+      set.cache(2).then(function() {
+        set.first(5).length.should.equal(2);
+        done();
+      }).fail(done);
     });
 
-    it('should ignore arguments less than 1', function() {
-      var result, set = new IncrementedSet();
+    it('should ignore arguments less than 1', function(done) {
+      var set = new IncrementedSet();
 
       set.increment('foo', 3);
       set.increment('bar', 7);
-
-      result = set.first(0);
-      result.length.should.equal(1);
-
-      result = set.first(-1);
-      result.length.should.equal(1);
-    });
-  });
-
-  describe('findIndex()', function() {
-    it('should find existing keys', function() {
-      var result, set = new IncrementedSet();
-
-      set.insert('foo');
-      result = set.findIndex('foo');
-
-      result.should.be.at.least(0);
-    });
-
-    it('should not find nonexisting keys', function() {
-      var result, set = new IncrementedSet();
-
-      set.insert('foo');
-      result = set.findIndex('bar');
-
-      result.should.equal(-1);
+      set.cache(2).then(function() {
+        set.first(0).length.should.equal(1);
+        set.first(-1).length.should.equal(1);
+        done();
+      }).fail(done);
     });
   });
 
   describe('increment()', function() {
-    it('should add nonexisting keys to the set', function() {
-      var result, set = new IncrementedSet();
+    it('should add nonexisting keys to the set', function(done) {
+      var set = new IncrementedSet();
 
       set.increment('foo');
       set.increment('bar');
-      result = set.first(2);
-
-      result.indexOf('foo').should.be.at.least(0);
-      result.indexOf('bar').should.be.at.least(0);
+      set.cache(2).then(function() {
+        set.first(2).indexOf('foo').should.be.at.least(0);
+        set.first(2).indexOf('bar').should.be.at.least(0);
+        done();
+      }).fail(done);
     });
 
-    it('should add 1 to an existing key', function() {
-      var result, set = new IncrementedSet();
+    it('should add 1 to an existing key', function(done) {
+      var set = new IncrementedSet();
 
       set.insert('foo');
       set.insert('bar');
       set.increment('foo');
-      result = set.first(1);
-
-      result.indexOf('foo').should.be.at.least(0);
-      result.indexOf('bar').should.equal(-1);
+      set.cache(2).then(function() {
+        set.first(1).indexOf('foo').should.be.at.least(0);
+        set.first(1).indexOf('bar').should.equal(-1);
+        done();
+      }).fail(done);
     });
 
-    it('should add an arbitrary amount to an existing key', function() {
+    it('should add an arbitrary amount to an existing key', function(done) {
       var result, set = new IncrementedSet();
 
       set.increment('foo', 1.1);
@@ -102,52 +86,50 @@ describe('IncrementedSet', function() {
       set.increment('baz', 3.3);
       set.increment('bar', 0.8);
       set.increment('baz', -0.1);
-      result = set.first(3);
-
-      result.should.eql(['bar', 'baz', 'foo']);
+      set.cache(3).then(function() {
+        set.first(3).should.eql(['bar', 'baz', 'foo']);
+        done();
+      }).fail(done);
     });
   });
 
   describe('insert()', function() {
-    it('should add keys to the set', function() {
+    it('should add keys to the set', function(done) {
       var result, set = new IncrementedSet();
 
       set.insert('foo');
       set.insert('bar');
-      result = set.first(2);
-
-      result.indexOf('foo').should.be.at.least(0);
-      result.indexOf('bar').should.be.at.least(0);
+      set.cache(2).then(function() {
+        set.first(2).indexOf('foo').should.be.at.least(0);
+        set.first(2).indexOf('bar').should.be.at.least(0);
+        done();
+      }).fail(done);
     });
 
-    it('should assign an initial value of 1', function() {
-      var result, set = new IncrementedSet();
+    it('should assign an initial value of 1', function(done) {
+      var set = new IncrementedSet();
 
       set.insert('foo');
       set.increment('bar', 2);
       set.increment('baz', 2);
-      result = set.first(2);
-
-      result.indexOf('foo').should.equal(-1);
+      set.cache(3).then(function() {
+        set.first(2).indexOf('foo').should.equal(-1);
+        done();
+      }).fail(done);
     });
   });
 
-  describe('Custom comparator', function() {
-    it('should be used when sorting', function() {
-      var minFirst = function(a, b) {
-        if (a.val > b.val) { return  1; }
-        if (a.val < b.val) { return -1; }
-        return 0;
-      };
-
-      var result, set = new IncrementedSet(minFirst);
+  describe('Reverse comparison', function() {
+    it('should be used when sorting', function(done) {
+      var set = new IncrementedSet({sort: 'minFirst'});
 
       set.increment('foo', 3);
       set.increment('bar', 2);
       set.increment('baz', 7);
-      result = set.first(3);
-
-      result.should.eql(['bar', 'foo', 'baz']);
+      set.cache(3).then(function() {
+        set.first(3).should.eql(['bar', 'foo', 'baz']);
+        done();
+      }).fail(done);
     });
   });
 

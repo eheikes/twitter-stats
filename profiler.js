@@ -11,15 +11,23 @@ profiler.profile(set);
 for (var i = 0; i < numInsertions; i++) {
   set.increment(getRandomInt(1, 100), 1);
 }
-profiler.stop();
-console.log(profiler.reportTree(), '\n');
+set.cache(numInsertions).then(function() {
+  profiler.stop();
+  console.log(profiler.reportTree(), '\n');
 
-console.log('=== IncrementedSet lookup ===');
-var profiler = new Profiler();
-profiler.profile(set);
-set.first(numInsertions);
-profiler.stop();
-console.log(profiler.reportTree(), '\n');
+  console.log('=== IncrementedSet lookup ===');
+  profiler = new Profiler();
+  profiler.profile(set);
+  set.first(numInsertions);
+  profiler.stop();
+  console.log(profiler.reportTree(), '\n');
+
+  process.exit(0);
+}).fail(function(err) {
+  profiler.stop();
+  console.error('Error running profiler: ', err);
+  process.exit(1);
+});
 
 function getRandom(min, max) {
   return Math.random() * (max - min) + min;
