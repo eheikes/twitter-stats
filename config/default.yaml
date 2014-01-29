@@ -12,6 +12,10 @@ redis:
   # database to use
   database: 0
 
+  # set to a path+file to connect over a Unix socket
+  #   (see https://github.com/mranney/node_redis#unix-domain-socket)
+  socket: null
+
   # connection timeout in secs
   timeout: 30
 
