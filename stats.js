@@ -107,21 +107,21 @@
     var placePct = stats.num ? stats.numWithPlace / stats.num : 0;
     var replyPct = stats.num ? stats.numIsReply / stats.num : 0;
     formatter.writeLn(
-      'with URL:', numeral(urlPct).format('0.00%'),
+      _.lpad('with URL:', 12), _.lpad(numeral(urlPct).format('0.00%'), 6),
       '    ',
-      'with place:', numeral(placePct).format('0.00%'),
+      _.lpad('with place:', 12), _.lpad(numeral(placePct).format('0.00%'), 6),
       '    ',
-      'is a reply:', numeral(replyPct).format('0.00%')
+      _.lpad('is a reply:', 12), _.lpad(numeral(replyPct).format('0.00%'), 6)
     );
 
     var picPct = stats.num ? stats.numWithPic / stats.num : 0;
     var retweetPct = stats.num ? stats.numIsRetweet / stats.num : 0;
     formatter.writeLn(
-      'with pic:', numeral(picPct).format('0.00%'),
+      _.lpad('with pic:', 12), _.lpad(numeral(picPct).format('0.00%'), 6),
       '    ',
-      '           ', '      ', // placeholder for future stat
+      _.lpad('', 12), '      ', // placeholder for future stat
       '    ',
-      'is a RT:   ', numeral(retweetPct).format('0.00%')
+      _.lpad('is a RT:', 12), _.lpad(numeral(retweetPct).format('0.00%'), 6)
     );
 
     parts = ['Top Tags:'];
