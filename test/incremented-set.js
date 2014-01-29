@@ -128,6 +128,22 @@ describe('IncrementedSet', function() {
         done();
       }).fail(done);
     });
+
+    it('should replace existing keys', function(done) {
+      var set = new IncrementedSet();
+
+      set.insert('foo', 1);
+      set.insert('foo', 1);
+      set.insert('foo', 1);
+      set.insert('foo', 1);
+      set.insert('bar', 3);
+      set.insert('baz', 2);
+      set.insert('baz', 4);
+      set.cache(3).then(function() {
+        set.first(3).should.eql(['baz', 'bar', 'foo']);
+        done();
+      }).fail(done);
+    });
   });
 
   describe('Reverse comparison', function() {
