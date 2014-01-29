@@ -3,6 +3,17 @@ var IncrementedSet = require('../lib/incremented-set');
 
 describe('IncrementedSet', function() {
 
+  describe('Constructor', function() {
+    it('should begin with an empty set', function(done) {
+      var set = new IncrementedSet();
+
+      set.cache(7).then(function() {
+        set.first(7).should.be.empty;
+        done();
+      }).fail(done);
+    });
+  });
+
   describe('first()', function() {
     it('should return the largest key', function(done) {
       var set = new IncrementedSet();
