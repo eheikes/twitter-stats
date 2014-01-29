@@ -8,6 +8,7 @@ redis:
   # connection settings; use null for the default (127.0.0.1:6379)
   host: null
   port: null
+  password: null
 
   # database to use
   database: 0
