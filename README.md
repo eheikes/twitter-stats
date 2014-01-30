@@ -2,6 +2,8 @@
 
 A `top`-style (CLI), real-time view of Twitter stats. Stats are collected by sampling Twitter's [public stream](https://dev.twitter.com/docs/streaming-apis/streams/public).
 
+![ScreenShot](https://raw.github.com/eheikes/twitter-stats/screenshots/images/screenshot.png)
+
 ## Requirements
 
 * [Twitter](https://twitter.com/) account
