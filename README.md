@@ -6,6 +6,7 @@ A `top`-style (CLI), real-time view of Twitter stats. Stats are collected by sam
 
 ## Requirements
 
+* [Node & npm](http://nodejs.org/)
 * [Twitter](https://twitter.com/) account
 * [Redis](http://redis.io/) server
 
