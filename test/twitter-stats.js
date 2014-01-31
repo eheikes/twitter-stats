@@ -24,8 +24,6 @@ describe('TwitterStats', function() {
         name: 'John Doe',
         screen_name: 'johndoe',
       },
-      geo: null,
-      coordinates: null,
       place: {
         attributes: {},
         bounding_box: {},
@@ -37,7 +35,6 @@ describe('TwitterStats', function() {
         place_type: "city",
         url: "http://api.twitter.com/1/geo/id/01fbe706f872cb32.json"
       },
-      contributors: null,
       retweeted_status: {
         created_at: 'Wed Jan 29 16:46:36 +0000 2014',
         id: 428569881127030800,
@@ -48,22 +45,8 @@ describe('TwitterStats', function() {
         in_reply_to_status_id_str: null,
         in_reply_to_user_id: null,
         in_reply_to_user_id_str: null,
-        in_reply_to_screen_name: null,
-        user: {},
-        geo: null,
-        coordinates: null,
-        place: null,
-        contributors: null,
-        entities: {
-          hashtags: [],
-          symbols: [],
-          urls: [Object],
-          user_mentions: [Object]
-        },
-        lang: 'en'
+        in_reply_to_screen_name: null
       },
-      retweet_count: 0,
-      favorite_count: 0,
       entities: {
         hashtags: [],
         symbols: [],
@@ -72,7 +55,6 @@ describe('TwitterStats', function() {
           expanded_url: 'https://instagram.com/p/eOxxr6q82y/',
           display_url: 'instagram.com/p/eOxxr6q82y'
         }],
-        user_mentions: [],
         media: [{
           id: 266031293949698048,
           id_str: '266031293949698048',
@@ -85,8 +67,6 @@ describe('TwitterStats', function() {
           sizes: {}
         }]
       },
-      favorited: false,
-      retweeted: false,
       lang: 'en'
     };
   });
