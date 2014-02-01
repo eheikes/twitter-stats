@@ -20,9 +20,6 @@ redis:
   # connection timeout in secs
   timeout: 30
 
-  # auth password
-  password: null
-
 ui:
   # time between updates, in secs
   updateInterval: 1
