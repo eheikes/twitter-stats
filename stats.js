@@ -26,6 +26,7 @@
   });
 
   process.on('SIGINT', function() {
+    stats.cleanup();
     process.exit(0);
   });
 
