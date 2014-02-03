@@ -47,7 +47,7 @@ Run `grunt test` to run the test suite.
 
 ## Known Issues
 
-Tested on Linux/Debian.
+Tested on Linux/Debian and Windows 7.
 
 * The [curses routines](lib/formatter.js) can probably be improved, if you can figure out the [horribly-documented blessed library](https://github.com/chjj/blessed).
 * There is no l10n/i18n done beyond what comes with Node and the included modules. It works pretty well, but CJK languages do cause rendering issues.
