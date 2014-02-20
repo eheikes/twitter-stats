@@ -3,7 +3,7 @@
   "description": "A top-style, real-time view of Twitter stats",
   "version": "0.1.0",
   "author": "Eric Heikes (http://ericheikes.com)",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "private": true,
   "homepage": "https://github.com/eheikes/twitter-stats",
   "repository": {
