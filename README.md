@@ -13,7 +13,7 @@ A `top`-style (CLI), real-time view of Twitter stats. Stats are collected by sam
 ## Installation
 
 1. Run `npm install`.
-2. Modify the `config/default.yaml` with your Redis configuration, if necessary. (You can optionally override `default.yaml` [with your own file](http://lorenwest.github.io/node-config/latest/index.html).)
+2. Modify the `config/default.yaml` with your Redis configuration, if necessary. (You can optionally override `default.yaml` [with your own file](https://github.com/lorenwest/node-config/wiki/Configuration-Files).)
 3. [Create a Twitter app](https://dev.twitter.com/docs/auth/tokens-devtwittercom) and update the `config/default.yaml` file with your app credentials.
 
 ## Usage
