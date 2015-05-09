@@ -17,27 +17,27 @@
     "start": "node stats"
   },
   "dependencies": {
-    "config": "~0.4.34",
-    "js-yaml": "~3.0.1",
-    "twit": "~1.1.12",
     "blessed": "0.0.29",
-    "lodash": "~2.4.1",
-    "moment": "~2.5.1",
-    "numeral": "~1.5.3",
-    "underscore.string": "~2.3.3",
-    "redis": "~0.10.0",
-    "uuid": "~1.4.1",
-    "kew": "~0.3.2"
+    "config": "^0.4.34",
+    "js-yaml": "^3.0.1",
+    "kew": "^0.3.2",
+    "lodash": "^2.4.1",
+    "moment": "^2.5.1",
+    "numeral": "^1.5.3",
+    "redis": "^0.10.0",
+    "twit": "^1.1.12",
+    "underscore.string": "^2.3.3",
+    "uuid": "^1.4.1"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "load-grunt-tasks": "~0.2.0",
     "chai": "*",
-    "mocha": "*",
-    "grunt-mocha-cli": "~1.5.0",
-    "grunt-contrib-jshint": "~0.8.0",
-    "lightprof": "~0.1.0",
-    "grunt-execute": "~0.1.5"
+    "grunt": "^0.4.1",
+    "grunt-contrib-jshint": "^0.8.0",
+    "grunt-execute": "^0.1.5",
+    "grunt-mocha-cli": "^1.5.0",
+    "lightprof": "^0.1.0",
+    "load-grunt-tasks": "^0.2.0",
+    "mocha": "*"
   },
   "engines": {
     "node": ">=0.8"
