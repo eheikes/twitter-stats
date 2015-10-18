@@ -14,7 +14,8 @@
     "url": "https://github.com/eheikes/twitter-stats/issues"
   },
   "scripts": {
-    "start": "node stats"
+    "start": "node stats",
+    "test": "grunt test"
   },
   "dependencies": {
     "blessed": "^0.1.80",
