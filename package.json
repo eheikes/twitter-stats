@@ -34,11 +34,11 @@
     "chai": "^3.5.0",
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
-    "grunt-mocha-cli": "^1.14.0",
+    "grunt-mocha-cli": "^2.1.0",
     "grunt-shell-spawn": "^0.3.10",
     "lightprof": "^0.1.0",
     "load-grunt-tasks": "^3.5.2",
-    "mocha": "^2.2.4"
+    "mocha": "^3.1.0"
   },
   "engines": {
     "node": ">=0.10"
