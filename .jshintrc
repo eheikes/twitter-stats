@@ -1,0 +1,25 @@
+{
+  "curly"         : true,
+  "eqeqeq"        : true,
+  "esversion"     : 6,
+  "expr"          : true,
+  "forin"         : true,
+  "immed"         : true,
+  "latedef"       : "nofunc",
+  "newcap"        : true,
+  "noarg"         : true,
+  "noempty"       : false,
+  "nonew"         : false,
+  "plusplus"      : false,
+  "quotmark"      : false,
+  "undef"         : true,
+  "unused"        : false,
+  "strict"        : true,
+  "trailing"      : true,
+
+  "jasmine"       : true,
+  "node"          : true,
+ 
+  "globals"       : {
+  }
+}

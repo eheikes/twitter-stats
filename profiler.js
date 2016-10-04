@@ -1,3 +1,5 @@
+'use strict';
+
 var Profiler = require('lightprof').Profiler;
 
 var IncrementedSet = require('./lib/incremented-set');

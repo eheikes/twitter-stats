@@ -1,3 +1,5 @@
+'use strict';
+
 var should = require('chai').should();
 var Stats = require('../lib/twitter-stats.js');
 var moment = require('moment');

@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
-        expr: true // allow Chai "should" expressions
+        jshintrc: true
       },
       all: [
         '*.js',
