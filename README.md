@@ -18,7 +18,7 @@ A `top`-style (CLI), real-time view of Twitter stats. Stats are collected by sam
 
 ## Usage
 
-Run `node stats`. Press Ctrl-C to quit.
+Run `npm start`. Press Ctrl-C to quit.
 
 ## Stats
 
@@ -41,7 +41,9 @@ The info that is included in the output, from top to bottom:
 * most mentioned users
 * most popular links
 
-## Testing
+## Contributing
+
+Run `grunt jshint` to lint the code.
 
 Run `grunt test` to run the test suite.
 
