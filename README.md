@@ -47,6 +47,8 @@ Run `grunt jshint` to lint the code.
 
 Run `grunt test` to run the test suite.
 
+Run `grunt profile` to run profiling.
+
 ## Known Issues
 
 Tested on Linux/Debian and Windows 7.
