@@ -19,25 +19,25 @@
   },
   "dependencies": {
     "blessed": "^0.1.80",
-    "config": "^1.15.0",
-    "js-yaml": "^3.0.1",
-    "kew": "^0.6.0",
+    "config": "^1.21.0",
+    "js-yaml": "^3.6.1",
+    "kew": "^0.7.0",
     "lodash": "^3.10.0",
-    "moment": "^2.10.2",
+    "moment": "^2.15.1",
     "numeral": "^1.5.3",
     "redis": "^0.12.0",
-    "twit": "^2.1.0",
-    "underscore.string": "^3.1.1",
-    "uuid": "^2.0.0"
+    "twit": "^2.2.5",
+    "underscore.string": "^3.3.4",
+    "uuid": "^2.0.3"
   },
   "devDependencies": {
-    "chai": "^3.2.0",
+    "chai": "^3.5.0",
     "grunt": "^0.4.1",
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-execute": "^0.2.0",
     "grunt-mocha-cli": "^1.14.0",
     "lightprof": "^0.1.0",
-    "load-grunt-tasks": "^3.2.0",
+    "load-grunt-tasks": "^3.5.2",
     "mocha": "^2.2.4"
   },
   "engines": {
