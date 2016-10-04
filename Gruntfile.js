@@ -24,16 +24,16 @@ module.exports = function(grunt) {
       all: ['test/*.js']
     },
 
-    execute: {
+    shell: {
       profile: {
-        src: ['profiler.js']
+        command: 'node profiler.js'
       }
     }
 
   });
 
   grunt.registerTask('test', ['mochacli']);
-  grunt.registerTask('profile', ['execute:profile']);
+  grunt.registerTask('profile', ['shell:profile']);
 
   grunt.registerTask('default', ['jshint', 'test', 'profile']);
 };
