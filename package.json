@@ -4,7 +4,6 @@
   "version": "0.1.3",
   "author": "Eric Heikes (http://ericheikes.com)",
   "license": "Apache-2.0",
-  "private": true,
   "homepage": "https://github.com/eheikes/twitter-stats",
   "repository": {
     "type": "git",
