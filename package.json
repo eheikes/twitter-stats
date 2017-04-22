@@ -5,6 +5,13 @@
   "author": "Eric Heikes (http://ericheikes.com)",
   "license": "Apache-2.0",
   "homepage": "https://github.com/eheikes/twitter-stats",
+  "keywords": [
+    "cli",
+    "command line",
+    "realtime",
+    "statistics",
+    "twitter"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/eheikes/twitter-stats.git"
