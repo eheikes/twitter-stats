@@ -39,6 +39,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-mocha-cli": "^3.0.0",
     "grunt-shell-spawn": "^0.3.10",
