@@ -1,7 +1,7 @@
 {
   "name": "twitter-stats",
   "description": "A top-style, real-time view of Twitter stats",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Eric Heikes (http://ericheikes.com)",
   "license": "Apache-2.0",
   "homepage": "https://github.com/eheikes/twitter-stats",
